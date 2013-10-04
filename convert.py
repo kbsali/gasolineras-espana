@@ -132,8 +132,7 @@ def extractZipFilenames():
             files.append(matchObj.group(1))
     return files
 
-def main():
-    print '--- initialising'
+def init():
     if not os.path.exists('./csv'):
         os.mkdir('./csv')
     if not os.path.exists('./web/json/latest'):
@@ -142,6 +141,10 @@ def main():
         os.makedirs('./web/geojson/latest')
     if not os.path.exists('./zip'):
         os.mkdir('./zip')
+
+def main():
+    print '--- initialising'
+    init()
 
     print '\n--- extract zip filenames from html'
     files = extractZipFilenames()
