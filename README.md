@@ -23,13 +23,62 @@ Install
 -------
 
 ```python
-wget
 pip install requests
+
+wget https://raw.github.com/kbsali/gasolineras-espana/master/convert.py
 chmod +x convert.py
+
 ./convert.py
+```
+
+Output
+-------
+
+The script will save the json + geojson files in sub directories for each date and an extra *latest* directory so you always have the option to access the latest file easily :
+
+```
+│   ├── geojson
+│   │   ├── 20131004
+│   │   │   ├── BIO.json
+│   │   │   ├── G98.json
+│   │   │   ├── GOA.json
+│   │   │   ├── GPR.json
+│   │   │   └── NGO.json
+│   │   └── latest
+│   │       ├── BIO.json
+│   │       ├── G98.json
+│   │       ├── GOA.json
+│   │       ├── GPR.json
+│   │       └── NGO.json
+│   └── json
+│       ├── 20131004
+│       │   ├── BIO.json
+│       │   ├── G98.json
+│       │   ├── GOA.json
+│       │   ├── GPR.json
+│       │   └── NGO.json
+│       └── latest
+│           ├── BIO.json
+│           ├── G98.json
+│           ├── GOA.json
+│           ├── GPR.json
+│           └── NGO.json
 ```
 
 See it live!
 ------------
 
-I have a cron job executing the script daily on my server, use the json files at your own will : http://gas.saliou.name
+I have a cron job executing the script daily on my server, use the json files at your own will : http://gas.saliou.name.
+Here are sample files :
+* http://gas.saliou.name/geojson/latest/BIO.json
+* http://gas.saliou.name/json/latest/G98.json
+
+Naming convention
+-----------------
+
+I kept the same naming policy as on the original source :
+* BIO : Biodiesel
+* G98 : Petrol 98
+* GOA : Gasoleo Automoción
+* GPR : Petrol 95 (G. Protección)
+* NGO : New diesel

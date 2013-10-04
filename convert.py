@@ -157,7 +157,6 @@ def main():
             '%s.zip' % (
             _file,
         ))
-        print url
         downloadFile(url)
 
     print '\n--- extract zip files'
