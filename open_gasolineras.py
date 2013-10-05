@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Usage: ./open_gasolineras.py [-d DIR] [--quiet | --verbose]
+"""Usage: ./convert.py [-d DIR] [--quiet | --verbose]
 
 -h --help   show this
 -d DIR      specify directory where output files are saved [default: .]

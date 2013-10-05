@@ -3,15 +3,17 @@ Spain's petrol stations' data
 
 This is a simple script I created to download the latest oficial price list for all types of petrol for all of the petrol stations in Spain provided by the *Gobierno de España. Ministerio de Industria, Energía y Turismo.* : http://geoportal.mityc.es/hidrocarburos/
 
-* The tool this portal provides is very user *UN*friendly,
-* The tool this portal provides is completely *UN*accessible (try to open it up in your mobile phone),
+* The tool this portal provides is very user *UN* friendly,
+* The tool this portal provides is completely *UN* accessible (try to open it up in your mobile phone),
 * The data source is somewhat hard to find, and if you do manage to find it, its format is not well structured, making hard to exploit.
 
 This script will :
 
 * *download* the latest zipped data available
- * To do so it parses this "amazing" page : http://geoportal.mityc.es/hidrocarburos/eess/dispmovil.jsp
- * The zip files URLs look something like : http://geoportal.mityc.es/hidrocarburos/files/eess_G98_04102013.zip
+ * To do so it parses this "amazing" page
+   * http://geoportal.mityc.es/hidrocarburos/eess/dispmovil.jsp
+ * The zip files URLs look something like
+   * http://geoportal.mityc.es/hidrocarburos/files/eess_G98_04102013.zip
 * *extract* all the downloaded zip CSV files
 * *convert* those CSV to [JSON](http://www.json.org/) and [GEOJSON](http://geojson.org/) format making it much easier to play with.
 
@@ -25,10 +27,18 @@ Install
 ```python
 pip install requests
 
-wget https://raw.github.com/kbsali/gasolineras-espana/master/convert.py
-chmod +x convert.py
+wget https://raw.github.com/kbsali/gasolineras-espana/master/open_gasolineras.py
+chmod +x open_gasolineras.py
 
-./convert.py
+./open_gasolineras.py -h
+Usage: ./open_gasolineras.py [-d DIR] [--quiet | --verbose]
+
+-h --help    show this
+-d DIR       specify directory where output files are saved [default: .]
+--quiet      do not print any debug traces
+
+./open_gasolineras.py -d /PATH/TO/... --quiet
+
 ```
 
 Output
@@ -37,32 +47,32 @@ Output
 The script will save the json + geojson files in sub directories for each date and an extra *latest* directory so you always have the option to access the latest file easily :
 
 ```
-│   ├── geojson
-│   │   ├── 20131004
-│   │   │   ├── BIO.json
-│   │   │   ├── G98.json
-│   │   │   ├── GOA.json
-│   │   │   ├── GPR.json
-│   │   │   └── NGO.json
-│   │   └── latest
-│   │       ├── BIO.json
-│   │       ├── G98.json
-│   │       ├── GOA.json
-│   │       ├── GPR.json
-│   │       └── NGO.json
-│   └── json
-│       ├── 20131004
-│       │   ├── BIO.json
-│       │   ├── G98.json
-│       │   ├── GOA.json
-│       │   ├── GPR.json
-│       │   └── NGO.json
-│       └── latest
-│           ├── BIO.json
-│           ├── G98.json
-│           ├── GOA.json
-│           ├── GPR.json
-│           └── NGO.json
+├── geojson
+│   ├── 20131004
+│   │   ├── BIO.json
+│   │   ├── G98.json
+│   │   ├── GOA.json
+│   │   ├── GPR.json
+│   │   └── NGO.json
+│   └── latest
+│       ├── BIO.json
+│       ├── G98.json
+│       ├── GOA.json
+│       ├── GPR.json
+│       └── NGO.json
+└── json
+    ├── 20131004
+    │   ├── BIO.json
+    │   ├── G98.json
+    │   ├── GOA.json
+    │   ├── GPR.json
+    │   └── NGO.json
+    └── latest
+        ├── BIO.json
+        ├── G98.json
+        ├── GOA.json
+        ├── GPR.json
+        └── NGO.json
 ```
 
 See it live!
