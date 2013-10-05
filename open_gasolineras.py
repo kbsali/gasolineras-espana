@@ -1,8 +1,10 @@
 #!/usr/bin/env python
-"""Usage: ./convert.py [-d DIR] [--quiet | --verbose]
+"""Usage: ./open_gasolineras.py [-d DIR] [-r DIR] [--quiet | --verbose]
 
--h --help   show this
--d DIR      specify directory where output files are saved [default: .]
+-h --help       show this
+-d DIR          specify where json output files are saved [default: .]
+-r DIR          specify raw output directory [default: .]
+-quiet          do not show any debug traces
 
 """
 from docopt import docopt
@@ -18,12 +20,13 @@ import logging
 
 debug_trace = True
 output_dir = '.'
+raw_output_dir = '.'
 
 
 def downloadFile(url):
     # Open the url
     try:
-        _f = output_dir + '/zip/' + os.path.basename(url)
+        _f = raw_output_dir + '/zip/' + os.path.basename(url)
         if not os.path.exists(_f):
             f = urlopen(url)
             logging.info('downloading' + url)
@@ -40,15 +43,15 @@ def downloadFile(url):
 
 
 def extract(_file):
-    _file = output_dir + '/zip/'+_file+'.zip'
+    _file = raw_output_dir + '/zip/'+_file+'.zip'
     zip_ref = zipfile.ZipFile(_file, 'r')
-    zip_ref.extractall(output_dir + '/csv')
+    zip_ref.extractall(raw_output_dir + '/csv')
     zip_ref.close()
     # os.remove(_file)
 
 
 def convertCsvToJson(_file):
-    _file = output_dir + '/csv/'+_file+'.csv'
+    _file = raw_output_dir + '/csv/'+_file+'.csv'
     filename = os.path.splitext(os.path.basename(_file))[0]
     logging.info(_file)
 
@@ -124,7 +127,7 @@ def writeToGeoJson(object, filename):
     logging.info(' - writing to ' + _f)
     with open(_f, 'w') as outfile:
         json.dump(object, outfile)
-    copy(_f, output_dir + '/web/geojson/latest/')
+    copy(_f, output_dir + '/geojson/latest/')
 
 
 def writeToJson(object, filename):
@@ -132,12 +135,12 @@ def writeToJson(object, filename):
     logging.info(' - writing to ' + _f)
     with open(_f, 'w') as outfile:
         json.dump(object, outfile)
-    copy(_f, output_dir + '/web/json/latest/')
+    copy(_f, output_dir + '/json/latest/')
 
 
 def jsonFileName(filename, extraDir='json'):
     matchObj = re.match(r'eess_(\S{3})_(\d{2})(\d{2})(\d{4})', filename)
-    _dir = output_dir + '/web/'+extraDir+'/' + matchObj.group(4) + matchObj.group(3) + matchObj.group(2)
+    _dir = output_dir + '/' + extraDir + '/' + matchObj.group(4) + matchObj.group(3) + matchObj.group(2)
     if not os.path.exists(_dir):
         os.mkdir(_dir)
     return _dir + '/' + matchObj.group(1) + '.json'
@@ -159,14 +162,14 @@ def extractZipFilenames():
 
 
 def init():
-    if not os.path.exists(output_dir + '/csv'):
-        os.makedirs(output_dir + '/csv')
-    if not os.path.exists(output_dir + '/web/json/latest'):
-        os.makedirs(output_dir + '/web/json/latest')
-    if not os.path.exists(output_dir + '/web/geojson/latest'):
-        os.makedirs(output_dir + '/web/geojson/latest')
-    if not os.path.exists(output_dir + '/zip'):
-        os.makedirs(output_dir + '/zip')
+    if not os.path.exists(raw_output_dir + '/csv'):
+        os.makedirs(raw_output_dir + '/csv')
+    if not os.path.exists(output_dir + '/json/latest'):
+        os.makedirs(output_dir + '/json/latest')
+    if not os.path.exists(output_dir + '/geojson/latest'):
+        os.makedirs(output_dir + '/geojson/latest')
+    if not os.path.exists(raw_output_dir + '/zip'):
+        os.makedirs(raw_output_dir + '/zip')
 
 
 def main():
@@ -200,4 +203,5 @@ if __name__ == '__main__':
     if not arguments['--quiet']:
         logging.basicConfig(level=logging.INFO)
     output_dir = arguments['-d']
+    raw_output_dir = arguments['-r']
     main()

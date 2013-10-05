@@ -25,17 +25,18 @@ Install
 -------
 
 ```python
-pip install requests
+pip install -r requirements.txt
 
 wget https://raw.github.com/kbsali/gasolineras-espana/master/open_gasolineras.py
 chmod +x open_gasolineras.py
 
-./open_gasolineras.py -h
-Usage: ./open_gasolineras.py [-d DIR] [--quiet | --verbose]
+$ ./open_gasolineras.py -h
+Usage: ./open_gasolineras.py [-d DIR] [-r DIR] [--quiet | --verbose]
 
--h --help    show this
--d DIR       specify directory where output files are saved [default: .]
---quiet      do not print any debug traces
+-h --help       show this
+-d DIR          specify where json output files are saved [default: .]
+-r DIR          specify raw output directory [default: .]
+-quiet          do not show any debug traces
 
 ./open_gasolineras.py -d /PATH/TO/... --quiet
 
