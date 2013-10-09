@@ -36,9 +36,9 @@ def downloadFile(url):
                 local_file.write(f.read())
 
     # handle errors
-    except HTTPError, e:
+    except HTTPError as e:
         print('HTTP Error:', e.code, url)
-    except URLError, e:
+    except URLError as e:
         print('URL Error:', e.reason, url)
 
 
@@ -143,7 +143,8 @@ def jsonFileName(filename, extraDir='json'):
     _dir = output_dir + '/' + extraDir + '/' + matchObj.group(4) + matchObj.group(3) + matchObj.group(2)
     if not os.path.exists(_dir):
         os.mkdir(_dir)
-    return _dir + '/' + matchObj.group(1) + '.json'
+    ext = '.geojson' if extraDir == 'geojson' else '.json'
+    return _dir + '/' + matchObj.group(1) + ext
 
 
 def extractZipFilenames():
