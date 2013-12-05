@@ -15,7 +15,6 @@ import os
 import zipfile
 import json
 import re
-import requests
 import logging
 
 debug_trace = True
@@ -50,10 +49,20 @@ def extract(_file):
     # os.remove(_file)
 
 
+def generateFileName(_csvfile):
+    with open(_csvfile, 'r') as f:
+        first_line = f.readline()
+    # ; Fichero Generado por el MINETUR 24/11/2013
+    matchObj = re.match(r'.*(\d{2})/(\d{2})/(\d{4})', first_line)
+    return matchObj.group(3) + matchObj.group(2) + matchObj.group(1) + '/' + _csvfile[11:14]
+
+
 def convertCsvToJson(_file):
     _file = raw_output_dir + '/csv/'+_file+'.csv'
-    filename = os.path.splitext(os.path.basename(_file))[0]
     logging.info(_file)
+
+    _todayFileName = generateFileName(_file)
+    logging.info(_todayFileName)
 
     # export file to list
     lines = [line.strip() for line in open(_file)]
@@ -115,50 +124,35 @@ def convertCsvToJson(_file):
             }
         })
 
-    writeToJson(jsonStack, filename)
+    writeToJson(jsonStack, _todayFileName)
     writeToGeoJson({
         "type": "FeatureCollection",
         "features": geoJsonStack
-    }, filename)
+    }, _todayFileName)
 
 
 def writeToGeoJson(object, filename):
-    _f = jsonFileName(filename, extraDir='geojson')
+    _f = output_dir + '/geojson/' + filename + '.geojson'
     logging.info(' - writing to ' + _f)
+    if not os.path.exists( os.path.dirname(_f) ):
+        os.makedirs( os.path.dirname(_f) )
     with open(_f, 'w') as outfile:
         json.dump(object, outfile)
     copy(_f, output_dir + '/geojson/latest/')
 
 
 def writeToJson(object, filename):
-    _f = jsonFileName(filename)
+    _f = output_dir + '/json/' + filename + '.json'
     logging.info(' - writing to ' + _f)
+    if not os.path.exists( os.path.dirname(_f) ):
+        os.makedirs( os.path.dirname(_f) )
     with open(_f, 'w') as outfile:
         json.dump(object, outfile)
     copy(_f, output_dir + '/json/latest/')
 
 
-def jsonFileName(filename, extraDir='json'):
-    matchObj = re.match(r'eess_(\S{3})_(\d{2})(\d{2})(\d{4})', filename)
-    _dir = output_dir + '/' + extraDir + '/' + matchObj.group(4) + matchObj.group(3) + matchObj.group(2)
-    if not os.path.exists(_dir):
-        os.mkdir(_dir)
-    ext = '.geojson' if extraDir == 'geojson' else '.json'
-    return _dir + '/' + matchObj.group(1) + ext
-
-
 def extractZipFilenames():
-    url = 'http://geoportal.mityc.es/hidrocarburos/eess/dispmovil.jsp'
-    r = requests.get(url)
-    files = []
-    for line in r.text.split('\n'):
-        # <input type="hidden" id="RESTO_G98" name="RESTO_G98" value="eess_G98_04102013.zip" />
-        matchObj = re.match(
-            r'.*<input.*type="hidden".*id="RESTO_.*".*name="RESTO_.*".*value="(.*).zip" />.*',
-            line
-        )
-        if matchObj:
-            files.append(matchObj.group(1))
+    files = ['GPR', 'G98', 'GOA', 'NGO', 'GOB', 'GOC', 'BIO', 'G95', 'BIE', 'GLP', 'GNC']
     return files
 
 
@@ -182,21 +176,24 @@ def main():
 
     logging.info('\n--- download zip files')
     for _file in files:
+        _file = 'eess_%s' % (_file,)
         url = (
-            'http://geoportal.mityc.es/'
-            'hidrocarburos/files/'
+            'http://www6.mityc.es/aplicaciones/carburantes/'
             '%s.zip' % (
                 _file,
             )
+
         )
         downloadFile(url)
 
     logging.info('\n--- extract zip files')
     for _file in files:
+        _file = 'eess_%s' % (_file,)
         extract(_file)
 
     logging.info('\n--- convert csv to json')
     for _file in files:
+        _file = 'eess_%s' % (_file,)
         convertCsvToJson(_file)
 
 if __name__ == '__main__':

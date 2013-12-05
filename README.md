@@ -1,3 +1,5 @@
+See my post about the subject : http://kevin.saliou.name/posts/[[]]].html
+
 Spain's petrol stations' data
 =============================
 
@@ -13,8 +15,9 @@ This script will :
  * To do so it parses this "amazing" page
    * http://geoportal.mityc.es/hidrocarburos/eess/dispmovil.jsp
  * The zip files URLs look something like
-   * http://geoportal.mityc.es/hidrocarburos/files/eess_G98_04102013.zip
+   * http://geoportal.mityc.es/hidrocarburos/files/eess_G98.zip
 * *extract* all the downloaded zip CSV files
+ * *extract* the date when the data was generated (first line of each csv file)
 * *convert* those CSV to [JSON](http://www.json.org/) and [GEOJSON](http://geojson.org/) format making it much easier to play with.
 
 Ultimately I would like to have a user-friendly (and accessible) solution for users to easily check with any type of browsers (desktop or mobile) where the nearest and cheapest petrol stations are. There are a number of mobile apps available out there (https://play.google.com/store/search?q=gasolineras&c=apps), but all of them are :
@@ -50,17 +53,17 @@ The script will save the json + geojson files in sub directories for each date a
 ```
 ├── geojson
 │   ├── 20131004
-│   │   ├── BIO.json
-│   │   ├── G98.json
-│   │   ├── GOA.json
-│   │   ├── GPR.json
-│   │   └── NGO.json
+│   │   ├── BIO.geojson
+│   │   ├── G98.geojson
+│   │   ├── GOA.geojson
+│   │   ├── GPR.geojson
+│   │   └── NGO.geojson
 │   └── latest
-│       ├── BIO.json
-│       ├── G98.json
-│       ├── GOA.json
-│       ├── GPR.json
-│       └── NGO.json
+│       ├── BIO.geojson
+│       ├── G98.geojson
+│       ├── GOA.geojson
+│       ├── GPR.geojson
+│       └── NGO.geojson
 └── json
     ├── 20131004
     │   ├── BIO.json
@@ -81,7 +84,7 @@ See it live!
 
 I have a cron job executing the script daily on my server, use the json files at your own will : http://gas.saliou.name.
 Here are sample files :
-* http://gas.saliou.name/geojson/latest/BIO.json
+* http://gas.saliou.name/geojson/latest/BIO.geojson
 * http://gas.saliou.name/json/latest/G98.json
 
 Naming convention
