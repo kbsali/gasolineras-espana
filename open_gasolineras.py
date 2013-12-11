@@ -12,6 +12,7 @@ from docopt import docopt
 from shutil import copy
 from urllib2 import urlopen, URLError, HTTPError
 import os
+import glob
 import zipfile
 import json
 import re
@@ -173,6 +174,10 @@ def main():
 
     logging.info('\n--- extract zip filenames from html')
     files = extractZipFilenames()
+
+    logging.info('\n--- delete existing zip files')
+    for i in glob.glob(raw_output_dir + u'/zip/*.zip'):
+        os.unlink (i)
 
     logging.info('\n--- download zip files')
     for _file in files:
