@@ -1,9 +1,9 @@
-See my post about the subject : http://kevin.saliou.name/posts/[[]]].html
+See my post about the subject : http://kevin.saliou.name/posts/2013-10-22-geojson-carburantes.html
 
 Spain's petrol stations' data
 =============================
 
-This is a simple script I created to download the latest oficial price list for all types of petrol for all of the petrol stations in Spain provided by the *Gobierno de España. Ministerio de Industria, Energía y Turismo.* : http://geoportal.mityc.es/hidrocarburos/
+This is a simple script I created to download the latest oficial price list for all types of petrol of all the petrol stations in Spain provided by the *Gobierno de España. Ministerio de Industria, Energía y Turismo.* : http://www.geoportalgasolineras.es/
 
 * The tool this portal provides is very user *UN* friendly,
 * The tool this portal provides is completely *UN* accessible (try to open it up in your mobile phone),
@@ -91,8 +91,14 @@ Naming convention
 -----------------
 
 I kept the same naming policy as on the original source :
-* BIO : Biodiesel
-* G98 : Petrol 98
-* GOA : Gasoleo Automoción
-* GPR : Petrol 95 (G. Protección)
-* NGO : New diesel
+* GPR : Gasolina 95 (G.Protección)
+* G98 : Gasolina 98
+* GOA : Gasóleo A habitual
+* NGO : Nuevo gasóleo A
+* GOB : Gasóleo B
+* GOC : Gasóleo C
+* BIO : Biodiésel
+* G95 : Gasolina 95
+* BIE : Bioetanol
+* GLP : Gases licuados del petróleo
+* GNC : Gas natural comprimido
