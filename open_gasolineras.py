@@ -80,8 +80,8 @@ def convertCsvToJson(_file):
 
         _line = line.split(',', 2)
         _json = {
-            'lat': float(_line[0]),
-            'lng': float(_line[1]),
+            'lat': float(_line[1]),
+            'lng': float(_line[0]),
             'name': '',
             'price': 0,
         }
@@ -117,7 +117,7 @@ def convertCsvToJson(_file):
             'type': 'Feature',
             'geometry': {
                 'type': 'Point',
-                'coordinates': [_json['lat'], _json['lng']]
+                'coordinates': [_json['lng'], _json['lat']]
             },
             'properties': {
                 'name': _json['name'],
